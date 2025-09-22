@@ -30,7 +30,7 @@ func NewVippsProvider(ext conf.OAuthProviderConfiguration) (OAuthProvider, error
 		return nil, err
 	}
 
-	return &workosProvider{
+	return &vippsProvider{
 		Config: &oauth2.Config{
 			ClientID:     ext.ClientID[0],
 			ClientSecret: ext.Secret,
@@ -43,11 +43,11 @@ func NewVippsProvider(ext conf.OAuthProviderConfiguration) (OAuthProvider, error
 	}, nil
 }
 
-func (g workosProvider) GetOAuthToken(code string) (*oauth2.Token, error) {
+func (g vippsProvider) GetOAuthToken(code string) (*oauth2.Token, error) {
 	return g.Exchange(context.Background(), code)
 }
 
-func (g workosProvider) GetUserData(ctx context.Context, tok *oauth2.Token) (*UserProvidedData, error) {
+func (g vippsProvider) GetUserData(ctx context.Context, tok *oauth2.Token) (*UserProvidedData, error) {
 	var u vippsUser
 	if err := makeRequest(ctx, tok, g.Config, defaultVippsAPIBase+"/vipps-userinfo-api/userinfo", &u); err != nil {
 		return nil, err
