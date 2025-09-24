@@ -24,6 +24,8 @@ type vippsUser struct {
 	Email      string `json:"email"`
 	Sid        string `json:"sid"`
 	Sub        string `json:"sub"`
+	Birthdate  string `json:"birthdate"`
+	Phone      string `json:"phone_number"`
 }
 
 func NewVippsProvider(ext conf.OAuthProviderConfiguration, scopes string) (OAuthProvider, error) {
@@ -75,6 +77,8 @@ func (g vippsProvider) GetUserData(ctx context.Context, tok *oauth2.Token) (*Use
 			PreferredUsername: u.Name,
 			FullName:          u.Name,
 			Email:             strings.ToLower(u.Email),
+			Birthdate:         u.Birthdate,
+			Phone:             u.Phone,
 		},
 		Emails: []Email{{
 			Email:    u.Email,
