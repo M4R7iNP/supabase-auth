@@ -14,6 +14,7 @@ const (
 
 type vippsProvider struct {
 	*oauth2.Config
+	APIPath string
 }
 
 type vippsUser struct {
@@ -25,21 +26,34 @@ type vippsUser struct {
 	Sub        string `json:"sub"`
 }
 
-func NewVippsProvider(ext conf.OAuthProviderConfiguration) (OAuthProvider, error) {
+func NewVippsProvider(ext conf.OAuthProviderConfiguration, scopes string) (OAuthProvider, error) {
 	if err := ext.ValidateOAuth(); err != nil {
 		return nil, err
 	}
+
+	oauthScopes := []string{
+		"name",
+		"email",
+	}
+
+	if scopes != "" {
+		oauthScopes = append(oauthScopes, strings.Split(scopes, ",")...)
+	}
+
+	apiPath := chooseHost(ext.URL, defaultVippsAPIBase)
 
 	return &vippsProvider{
 		Config: &oauth2.Config{
 			ClientID:     ext.ClientID[0],
 			ClientSecret: ext.Secret,
 			Endpoint: oauth2.Endpoint{
-				AuthURL:  defaultVippsAPIBase + "/access-management-1.0/access/oauth2/auth",
-				TokenURL: defaultVippsAPIBase + "/access-management-1.0/access/oauth2/token",
+				AuthURL:  apiPath + "/access-management-1.0/access/oauth2/auth",
+				TokenURL: apiPath + "/access-management-1.0/access/oauth2/token",
 			},
 			RedirectURL: ext.RedirectURI,
+			Scopes:      oauthScopes,
 		},
+		APIPath: apiPath,
 	}, nil
 }
 
@@ -49,7 +63,7 @@ func (g vippsProvider) GetOAuthToken(code string) (*oauth2.Token, error) {
 
 func (g vippsProvider) GetUserData(ctx context.Context, tok *oauth2.Token) (*UserProvidedData, error) {
 	var u vippsUser
-	if err := makeRequest(ctx, tok, g.Config, defaultVippsAPIBase+"/vipps-userinfo-api/userinfo", &u); err != nil {
+	if err := makeRequest(ctx, tok, g.Config, g.APIPath+"/vipps-userinfo-api/userinfo", &u); err != nil {
 		return nil, err
 	}
 
