@@ -691,7 +691,7 @@ func (a *API) Provider(ctx context.Context, name string, scopes string) (provide
 		p, err = provider.NewZoomProvider(pConfig)
 	case "vipps":
 		pConfig = config.External.Vipps
-		p, err = provider.NewVippsProvider(pConfig)
+		p, err = provider.NewVippsProvider(pConfig, scopes)
 	default:
 		return nil, pConfig, fmt.Errorf("Provider %s could not be found", name)
 	}
