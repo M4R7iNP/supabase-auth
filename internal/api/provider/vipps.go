@@ -26,6 +26,7 @@ type vippsUser struct {
 	Sub        string `json:"sub"`
 	Birthdate  string `json:"birthdate"`
 	Phone      string `json:"phone_number"`
+	Gender     string `json:"gender"`
 }
 
 func NewVippsProvider(ext conf.OAuthProviderConfiguration, scopes string) (OAuthProvider, error) {
@@ -79,6 +80,8 @@ func (g vippsProvider) GetUserData(ctx context.Context, tok *oauth2.Token) (*Use
 			Email:             strings.ToLower(u.Email),
 			Birthdate:         u.Birthdate,
 			Phone:             u.Phone,
+			PhoneVerified:     u.Phone != "", // Vipps phone numbers are always verified
+			Gender:            u.Gender,
 		},
 		Emails: []Email{{
 			Email:    u.Email,
