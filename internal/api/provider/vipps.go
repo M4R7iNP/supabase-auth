@@ -73,7 +73,7 @@ type vippsUser struct {
 	PhoneNumber         string                  `json:"phone_number"`
 	PhoneNumberVerified bool                    `json:"phone_number_verified"`
 	Gender              string                  `json:"gender"`
-	Address             []vippsAddress          `json:"address"`
+	Address             vippsAddress            `json:"address"`
 	OtherAddresses      []vippsAddress          `json:"other_addresses"`
 	DelegatedConsents   []vippsDelegatedConsent `json:"delegated_consents"`
 	Agreement           []vippsAgreement        `json:"agreement"`
