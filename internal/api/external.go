@@ -692,6 +692,9 @@ func (a *API) Provider(ctx context.Context, name string, scopes string) (provide
 	case "vipps":
 		pConfig = config.External.Vipps
 		p, err = provider.NewVippsProvider(pConfig, scopes)
+	case "okta":
+		pConfig = config.External.Okta
+		p, err = provider.NewOktaProvider(pConfig, scopes)
 	default:
 		return nil, pConfig, fmt.Errorf("Provider %s could not be found", name)
 	}

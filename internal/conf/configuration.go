@@ -442,6 +442,7 @@ type ProviderConfiguration struct {
 	X                       OAuthProviderConfiguration     `json:"x" envconfig:"X"`
 	Zoom                    OAuthProviderConfiguration     `json:"zoom"`
 	Vipps                   OAuthProviderConfiguration     `json:"vipps"`
+	Okta                    OAuthProviderConfiguration     `json:"okta"`
 	IosBundleId             string                         `json:"ios_bundle_id" split_words:"true"`
 	RedirectURL             string                         `json:"redirect_url"`
 	AllowedIdTokenIssuers   []string                       `json:"allowed_id_token_issuers" split_words:"true"`
