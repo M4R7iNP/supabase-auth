@@ -1,7 +1,7 @@
 default:
     just --list
 
-version := "2.184.0-martin23"
+version := "2.188.1-martin24"
 tag := "v" + version
 image := "martin/supabase/auth:" + tag
 destination := "containers.artifactory.schibsted.io/" + image
