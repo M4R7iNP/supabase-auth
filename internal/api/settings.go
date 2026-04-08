@@ -30,6 +30,7 @@ type ProviderSettings struct {
 	Phone          bool `json:"phone"`
 	Zoom           bool `json:"zoom"`
 	Vipps          bool `json:"vipps"`
+	Okta           bool `json:"okta"`
 }
 
 type Settings struct {
@@ -74,6 +75,7 @@ func (a *API) Settings(w http.ResponseWriter, r *http.Request) error {
 			Phone:          config.External.Phone.Enabled,
 			Zoom:           config.External.Zoom.Enabled,
 			Vipps:          config.External.Vipps.Enabled,
+			Okta:           config.External.Okta.Enabled,
 		},
 		DisableSignup:     config.DisableSignup,
 		MailerAutoconfirm: config.Mailer.Autoconfirm,
